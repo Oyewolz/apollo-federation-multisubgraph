@@ -1,0 +1,11 @@
+federation_version: =2.9.0
+
+subgraphs:
+  books:
+    routing_url: http://spring-service:8080/graphql/books
+    schema:
+      file: ../src/main/resources/graphql/books.graphqls
+  authors:
+    routing_url: http://spring-service:8080/graphql/authors
+    schema:
+      file: ../src/main/resources/graphql/authors.graphqls

@@ -1,0 +1,25 @@
+services:
+  spring-service:
+    build:
+      context: .
+    ports:
+      - "8080:8080"
+
+  apollo-router:
+    build:
+      context: .
+      dockerfile: router/Dockerfile
+      args:
+        ROUTER_VERSION: v2.12.1
+    depends_on:
+      - spring-service
+    ports:
+      - "4000:4000"
+    command:
+      - "--config"
+      - "/dist/schema/router.yaml"
+      - "--supergraph"
+      - "/dist/schema/supergraph.graphql"
+    volumes:
+      - ./router/router.yaml:/dist/schema/router.yaml:ro
+      - ./router/supergraph.graphql:/dist/schema/supergraph.graphql:ro
