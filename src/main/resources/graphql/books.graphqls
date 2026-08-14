@@ -1,5 +1,5 @@
 extend schema
-  @link(url: "https://specs.apollo.dev/federation/v2.9", import: ["@key"])
+  @link(url: "https://specs.apollo.dev/federation/v2.9", import: ["@key", "@external", "@extends"])
 
 type Query {
   books: [Book!]!
@@ -9,9 +9,14 @@ type Query {
 type Book @key(fields: "id") {
   id: ID!
   title: String!
+  description: String!
+  genre: String!
+  publishedYear: Int!
+  pageCount: Int!
   author: Author!
 }
 
-type Author @key(fields: "id", resolvable: false) {
-  id: ID!
+type Author @key(fields: "id") @extends {
+  id: ID! @external
+  books(genre: String): [Book!]!
 }

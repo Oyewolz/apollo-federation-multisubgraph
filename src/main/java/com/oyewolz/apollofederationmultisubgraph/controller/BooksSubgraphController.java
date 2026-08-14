@@ -35,8 +35,19 @@ public class BooksSubgraphController {
         return bookRepository.findById(id);
     }
 
+    @EntityMapping
+    public AuthorReference author(@Argument String id) {
+        return new AuthorReference(id);
+    }
+
     @SchemaMapping(typeName = "Book", field = "author")
     public AuthorReference author(Book book) {
         return new AuthorReference(book.authorId());
     }
+
+    @SchemaMapping(typeName = "Author", field = "books")
+    public List<Book> books(AuthorReference author, @Argument String genre) {
+        return bookRepository.findByAuthorId(author.id(), genre);
+    }
+
 }

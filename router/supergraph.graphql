@@ -23,10 +23,13 @@ directive @link(url: String, as: String, for: link__Purpose, import: [link__Impo
 
 type Author
   @join__type(graph: AUTHORS, key: "id")
-  @join__type(graph: BOOKS, key: "id", resolvable: false)
+  @join__type(graph: BOOKS, key: "id", extension: true)
 {
   id: ID!
   name: String! @join__field(graph: AUTHORS)
+  country: String! @join__field(graph: AUTHORS)
+  birthYear: Int! @join__field(graph: AUTHORS)
+  books(genre: String): [Book!]! @join__field(graph: BOOKS)
 }
 
 type Book
@@ -34,6 +37,10 @@ type Book
 {
   id: ID!
   title: String!
+  description: String!
+  genre: String!
+  publishedYear: Int!
+  pageCount: Int!
   author: Author!
 }
 

@@ -4,6 +4,7 @@ import java.lang.annotation.Annotation;
 import java.util.List;
 import java.util.function.Predicate;
 
+import com.oyewolz.apollofederationmultisubgraph.model.AuthorReference;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -91,6 +92,13 @@ public class SubgraphGraphQlConfiguration {
     private FederationSchemaFactory federationSchemaFactoryFor(Class<?> markerAnnotation) {
         FederationSchemaFactory factory = new FederationSchemaFactory();
         factory.setControllerPredicate(controllerPredicate(asAnnotationType(markerAnnotation)));
+        factory.setTypeResolver(environment -> {
+            Object entity = environment.getObject();
+            String typeName = entity instanceof AuthorReference
+                    ? "Author"
+                    : entity.getClass().getSimpleName();
+            return environment.getSchema().getObjectType(typeName);
+        });
         return factory;
     }
 
@@ -115,4 +123,5 @@ public class SubgraphGraphQlConfiguration {
                 .exceptionResolvers(List.of(((AnnotatedControllerConfigurer) controllerConfigurer).getExceptionResolver()))
                 .build();
     }
+
 }

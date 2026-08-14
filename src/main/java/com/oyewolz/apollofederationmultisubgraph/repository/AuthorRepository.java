@@ -9,9 +9,9 @@ import org.springframework.stereotype.Repository;
 public class AuthorRepository {
 
     private static final List<Author> AUTHORS = List.of(
-            new Author("author-1", "Ada Lovelace"),
-            new Author("author-2", "Octavia Butler"),
-            new Author("author-3", "James Baldwin"));
+            new Author("author-1", "Ada Lovelace", "United Kingdom", 1815),
+            new Author("author-2", "Octavia Butler", "United States", 1947),
+            new Author("author-3", "James Baldwin", "United States", 1924));
 
     public List<Author> findAll() {
         return AUTHORS;
